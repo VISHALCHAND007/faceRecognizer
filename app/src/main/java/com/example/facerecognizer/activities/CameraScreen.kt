@@ -65,8 +65,6 @@ class CameraScreen : AppCompatActivity() {
     private var imgProxy: ImageProxy? = null
     private lateinit var imageCapture: ImageCapture
     private lateinit var boundingBox: RectF
-    private val storagePermission = Manifest.permission.WRITE_EXTERNAL_STORAGE
-
     private lateinit var cameraXViewModel: CameraXViewModel
 
     //    private var timer = ""
@@ -192,6 +190,8 @@ class CameraScreen : AppCompatActivity() {
 
     private fun initElements() {
         constants = Constants()
+        sharedPrefs = SharedPrefs(this@CameraScreen)
+        imageHelper = ImageHelper()
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         imgList = ArrayList()
         imgUriList = ArrayList()
@@ -204,7 +204,7 @@ class CameraScreen : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     private fun initListeners() {
-        myLRUCache.setOnBitmapAddedListener(object: OnBitmapAddedListener {
+        myLRUCache.setOnBitmapAddedListener(object : OnBitmapAddedListener {
             override fun onBitmapAdded(key: String, bitmap: Bitmap) {
                 //here bitmap is the cached bitmap
                 constants.log("Image Cached $sec")
@@ -246,11 +246,14 @@ class CameraScreen : AppCompatActivity() {
             .setTargetAspectRatio(AspectRatio.RATIO_4_3)
             .setDefaultResolution(Size(DEFAULT_WIDTH, DEFAULT_HEIGHT))
             .build()
-        cameraPreview = Preview.Builder()
-            .setTargetRotation(binding?.cameraPreview?.display!!.rotation)
-            .setTargetAspectRatio(AspectRatio.RATIO_4_3)
-            .build()
-        cameraPreview.setSurfaceProvider(binding?.cameraPreview?.surfaceProvider)
+        val rotation = binding?.cameraPreview?.display?.rotation
+        if (rotation != null) {
+            cameraPreview = Preview.Builder()
+                .setTargetRotation(rotation)
+                .setTargetAspectRatio(AspectRatio.RATIO_4_3)
+                .build()
+            cameraPreview.setSurfaceProvider(binding?.cameraPreview?.surfaceProvider)
+        }
     }
 
     private fun bindInputAnalyser() {
@@ -331,7 +334,7 @@ class CameraScreen : AppCompatActivity() {
                 boundingBox = it.boundingBox()
                 binding?.faceBoxOverlay?.add(box)
             }
-        } else if(detections.size > 1) {
+        } else if (detections.size > 1) {
             detections.forEach {
                 val box = FaceBox(
                     binding!!.faceBoxOverlay,
@@ -488,9 +491,13 @@ class CameraScreen : AppCompatActivity() {
                 sharedPrefs.getString(Constants.EMPLOYEE_ID)!!
             )
 //            employeeViewModel.updateTrainingImagesOffline(mList = imgUriList)
-//            val intent = Intent(this@CameraScreen, ImageSelectionScreen::class.java)
-//            constants.dismissBottomSheet()
-            startActivity(intent)
+            runOnUiThread {
+//                val intent = Intent(this@CameraScreen, MainActivity::class.java)
+//                startActivity(intent)
+//                finish()
+                onBackPressedDispatcher.onBackPressed()
+                finish()
+            }
         }
     }
 

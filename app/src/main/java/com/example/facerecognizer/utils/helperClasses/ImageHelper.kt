@@ -150,7 +150,7 @@ class ImageHelper @Inject constructor() {
                         // Obtaining the URI of the saved image
                         val imageUri = FileProvider.getUriForFile(
                             mContext.applicationContext,
-                            "com.pluxai.fileprovider",
+                            "com.example.facedetectionapp",
                             imageFile
                         )
                         // Adding the URI to the list

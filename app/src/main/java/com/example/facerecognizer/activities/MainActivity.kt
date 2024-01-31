@@ -45,6 +45,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import java.io.File
 import java.util.concurrent.Executors
 
 class MainActivity : AppCompatActivity() {
@@ -74,7 +75,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding?.root)
         TfLite.initialize(this@MainActivity)
-        init()
+//        init()
     }
 
     private fun init() {
@@ -258,9 +259,15 @@ class MainActivity : AppCompatActivity() {
     private fun checkEmpId(empId: String, dialog: Dialog) {
         if (empId.isNotEmpty()) {
             dialog.dismiss()
-
+            sharedPrefs.saveString(Constants.EMPLOYEE_ID, empId)
             constants.changeScreen(this@MainActivity, CameraScreen::class.java)
         }
+    }
+
+    override fun onResume() {
+        binding?.progressLayout?.visibility = View.VISIBLE
+        init()
+        super.onResume()
     }
 
     private fun openEmpIdDialog() {
@@ -327,6 +334,29 @@ class MainActivity : AppCompatActivity() {
     private fun initListeners() {
         binding?.addEmpCv?.setOnClickListener {
             openEmpIdDialog()
+        }
+
+        binding?.startTrainingCv?.setOnClickListener {
+            val folderNames: ArrayList<String> = ArrayList()
+            val folderPaths: ArrayList<String> = ArrayList()
+
+            //getting all the employees by getting all the folder names
+            val internalDir = "$filesDir"
+            val mainFileLocation = File(internalDir)
+            if (mainFileLocation.exists() && mainFileLocation.isDirectory) {
+                mainFileLocation.listFiles { file ->
+                    file.isDirectory
+                }?.map {
+                    folderNames.add(it.toString().split("files/")[1])
+                    folderPaths.add(it.toString())
+                }
+            }
+            if (folderNames.isNotEmpty()) {
+                constants.showToast("$folderNames", this@MainActivity)
+                constants.log("$folderNames")
+            }
+            if (folderPaths.isNotEmpty())
+                constants.log("$folderPaths")
         }
 
         myLRUCache.setOnBitmapAddedListener(object : OnBitmapAddedListener {
