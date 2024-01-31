@@ -1,0 +1,10 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.FaceRecognizer" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+         <item name="colorPrimary">#3F51B5</item>
+         <item name="colorPrimaryDark">#2F41A6</item>
+    </style>
+
+    <style name="Theme.FaceRecognizer" parent="Base.Theme.FaceRecognizer" />
+</resources>

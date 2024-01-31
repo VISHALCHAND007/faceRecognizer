@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cameraView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.camera.view.PreviewView
+        android:id="@+id/cameraPreview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.example.facedetectionapp.utils.faceDetection.ui.FaceBoxOverlay
+        android:id="@+id/faceBoxOverlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageView
+        android:id="@+id/approvedIv"
+        android:layout_width="@dimen/dim_114"
+        android:layout_height="@dimen/dim_114"
+        android:src="@drawable/approve"
+        android:visibility="gone"
+        android:contentDescription="@string/manual_mode"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/verifiedCv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dim_50"
+        android:layout_marginBottom="@dimen/dim_80"
+        android:background="@color/backgroundColor"
+        android:visibility="gone"
+        app:cardCornerRadius="@dimen/dim_8"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="@dimen/dim_10"
+            android:textAlignment="center"
+            android:textColor="@color/textGreen"
+            android:textSize="@dimen/font_size_16" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/dim_20"
+        android:paddingVertical="@dimen/dim_10"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textColor="@color/blue"
+        android:textSize="@dimen/font_size_20"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dim_20"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/addEmpCv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dim_80"
+            android:layout_weight=".9"
+            android:background="@color/backgroundColor"
+            app:cardCornerRadius="@dimen/dim_8">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/dim_20"
+                android:paddingVertical="@dimen/dim_10"
+                android:text="@string/add_employee"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textColor="@color/blue"
+                android:textSize="@dimen/font_size_16" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".2" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/startTrainingCv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginBottom="@dimen/dim_80"
+            android:layout_weight=".9"
+            android:background="@color/backgroundColor"
+            app:cardCornerRadius="@dimen/dim_8">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/dim_20"
+                android:paddingVertical="@dimen/dim_10"
+                android:text="@string/start_training"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textColor="@color/blue"
+                android:textSize="@dimen/font_size_16" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/progressLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <ProgressBar
+            android:layout_width="@dimen/dim_60"
+            android:layout_height="@dimen/dim_60"
+            android:layout_centerInParent="true" />
+
+    </RelativeLayout>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/positionOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:background="@android:color/transparent"
+        android:backgroundTint="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5"
+        app:strokeColor="@color/white"
+        app:strokeWidth="@dimen/dim_2" />
+
+    <ImageView
+        android:id="@+id/blurredBackground"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:alpha=".95"
+        android:contentDescription="@string/tick_sign"
+        android:background="@android:color/transparent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/blur_img"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/attendanceMarkedView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.5">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dim_30"
+            android:layout_marginBottom="@dimen/dim_1"
+            android:background="@color/backgroundColor"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/dim_10"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".8"
+                android:textAlignment="center"
+                android:textColor="@color/brandGreen"
+                android:textSize="@dimen/font_size_20" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dim_50"
+                android:layout_gravity="center_vertical"
+                android:layout_weight=".2"
+                android:contentDescription="@string/tick_sign"
+                android:src="@drawable/verification" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/backgroundColor"
+            android:orientation="vertical"
+            android:padding="@dimen/dim_8">
+
+            <TextView
+                android:id="@+id/notYouTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginBottom="@dimen/dim_2"
+                android:background="#F56565"
+                android:paddingHorizontal="@dimen/dim_10"
+                android:paddingVertical="@dimen/dim_8"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size_12" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <ImageView
+                    android:id="@+id/empImgIv"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/dim_120"
+                    android:layout_weight=".6"
+                    android:contentDescription="@string/tick_sign"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/bg_user" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".1" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.3"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/empNameTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/headingBlack"
+                        android:textSize="@dimen/font_size_16" />
+
+                    <TextView
+                        android:id="@+id/empRoleTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/headingBlack"
+                        android:textSize="@dimen/font_size_13" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dim_1"
+                        android:background="@color/textProgress" />
+
+                    <TableLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dim_10">
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:weightSum="2">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight=".8"
+                                android:textColor="@color/headingBlack"
+                                android:textSize="@dimen/font_size_13" />
+
+                            <TextView
+                                android:id="@+id/empIdTv"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1.2"
+                                android:textColor="@color/headingBlack"
+                                android:textSize="@dimen/font_size_14" />
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:weightSum="2">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight=".8"
+                                android:textColor="@color/headingBlack"
+                                android:textSize="@dimen/font_size_13" />
+
+                            <TextView
+                                android:id="@+id/punchTimeTv"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1.2"
+                                android:textColor="@color/headingBlack"
+                                android:textSize="@dimen/font_size_14" />
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:weightSum="2">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight=".8"
+                                android:textColor="@color/headingBlack"
+                                android:textSize="@dimen/font_size_13" />
+
+                            <TextView
+                                android:id="@+id/punchDateTv"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1.2"
+                                android:textColor="@color/headingBlack"
+                                android:textSize="@dimen/font_size_14" />
+
+                        </TableRow>
+
+                    </TableLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

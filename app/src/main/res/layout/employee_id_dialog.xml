@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+<!--    android:layout_marginHorizontal="@dimen/dim_20"-->
+<!--    app:cardCornerRadius="@dimen/dim_32"-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/def_horizontal"
+        android:layout_marginBottom="@dimen/def_vertical"
+        android:orientation="vertical">
+
+
+        <ImageView
+            android:id="@+id/userIv"
+            android:layout_width="@dimen/dim_80"
+            android:layout_height="@dimen/dim_80"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/app_logo_round" />
+
+        <TextView
+            android:id="@+id/deviceNameTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/dim_10"
+            android:textColor="@color/headingBlack"
+            android:textSize="@dimen/font_size_24" />
+
+        <TextView
+            android:id="@+id/userNameTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dim_30"
+            android:text="@string/employee_id"
+            android:textColor="@color/normalText"
+            android:textSize="@dimen/font_size_14" />
+
+        <EditText
+            android:id="@+id/employeeIdEt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dim_5"
+            android:autofillHints="@null"
+            android:background="@drawable/round_corners_blue"
+            android:hint="@string/enter_employee_id"
+            android:inputType="text"
+            android:paddingHorizontal="@dimen/dim_16"
+            android:paddingVertical="@dimen/dim_12"
+            android:textColorHint="@color/hintText" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_marginTop="@dimen/dim_10"
+            android:layout_width="@dimen/dim_60"
+            android:layout_height="@dimen/dim_60"
+            android:visibility="gone"
+            android:layout_gravity="center_horizontal"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dim_50"
+            android:layout_marginTop="@dimen/dim_30"
+            android:layout_marginBottom="@dimen/dim_20"
+            android:gravity="center_horizontal">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/cancelBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/dim_20"
+                android:background="@drawable/grey_border"
+                android:paddingHorizontal="@dimen/dim_25"
+                android:paddingVertical="@dimen/dim_8"
+                android:text="@string/cancel"
+                android:layout_alignParentStart="true"
+                android:textColor="@color/brandGreen"
+                android:textSize="@dimen/font_size_16" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/confirmBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/button_drawable"
+                android:backgroundTint="@color/brandGreen"
+                android:paddingHorizontal="@dimen/dim_25"
+                android:paddingVertical="@dimen/dim_8"
+                android:text="@string/confirm"
+                android:layout_alignParentEnd="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size_16"
+                tools:ignore="RelativeOverlap" />
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
