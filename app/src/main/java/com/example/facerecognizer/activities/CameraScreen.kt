@@ -495,6 +495,7 @@ class CameraScreen : AppCompatActivity() {
 //                val intent = Intent(this@CameraScreen, MainActivity::class.java)
 //                startActivity(intent)
 //                finish()
+                constants.showToast("Faces added.", this@CameraScreen)
                 onBackPressedDispatcher.onBackPressed()
                 finish()
             }
