@@ -59,9 +59,15 @@ android {
 }
 chaquopy {
     defaultConfig {
-        version = "3.11"
+        version = "3.8"
         pip {
+//            install("--upgrade pip setuptools wheel")
             install("numpy")
+//            install("cv2")
+            install("opencv-python")
+            install("deepface==0.0.83")
+//            install("sklearn")
+            install("scikit-learn")
         }
     }
     sourceSets {
@@ -96,4 +102,6 @@ dependencies {
 
     // ViewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+
+//    implementation("org.chaquo.python:tensorflow:1.9.0")
 }

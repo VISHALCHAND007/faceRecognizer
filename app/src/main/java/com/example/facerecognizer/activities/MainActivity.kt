@@ -35,6 +35,8 @@ import com.example.facerecognizer.utils.SharedPrefs
 import com.example.facerecognizer.utils.customEmpIdDialog
 import com.example.facerecognizer.utils.helperClasses.Constants
 import com.example.facerecognizer.utils.helperClasses.ImageHelper
+import com.example.facerecognizer.utils.helperClasses.OnComplete
+import com.example.facerecognizer.utils.helperClasses.PythonHelper
 import com.example.facerecognizer.viewModels.CameraXViewModel
 import com.google.android.gms.tflite.java.TfLite
 import com.google.mediapipe.tasks.components.containers.Detection
@@ -69,6 +71,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var uri: Uri
     private lateinit var overlayBitmap: Bitmap
     private lateinit var sharedPrefs: SharedPrefs
+    private lateinit var pythonHelper: PythonHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -91,6 +94,9 @@ class MainActivity : AppCompatActivity() {
         val cacheSize = maxMemory / 8 // Use 1/8th of the available memory
         myLRUCache = MyLRUCache(cacheSize)
         sharedPrefs = SharedPrefs(this@MainActivity)
+        pythonHelper = PythonHelper(
+            constants = constants
+        )
     }
 
     private fun initTasks() {
@@ -351,6 +357,8 @@ class MainActivity : AppCompatActivity() {
                     folderPaths.add(it.toString())
                 }
             }
+            pythonHelper.generateEmbeddings(this@MainActivity, folderPaths
+            )
             if (folderNames.isNotEmpty()) {
                 constants.showToast("$folderNames", this@MainActivity)
                 constants.log("$folderNames")
