@@ -9,6 +9,7 @@ import java.io.IOException
 import java.io.RandomAccessFile
 import java.nio.ByteBuffer
 import java.nio.FloatBuffer
+import kotlin.math.pow
 import kotlin.math.sqrt
 
 
@@ -32,6 +33,7 @@ class TemplateMatching {
         }
         return null
     }
+
     fun readEmbeddingsFromAssets(context: Context, fileName: String): FloatArray? {
         try {
             val assetManager: AssetManager = context.assets
@@ -86,6 +88,19 @@ class TemplateMatching {
         }
 
         return Math.sqrt(sum).toFloat()
+    }
+
+    fun euclideanDistanceFromDouble(vector1: DoubleArray, vector2: DoubleArray): Double {
+        require(vector1.size == vector2.size) {
+            "Vectors must have the same dimensionality"
+        }
+
+        var sum = 0.0
+        for (i in vector1.indices) {
+            sum += (vector1[i] - vector2[i]).pow(2)
+        }
+
+        return sqrt(sum)
     }
 
     private fun byteArrayToFloatArray(bytes: ByteArray): FloatArray {
