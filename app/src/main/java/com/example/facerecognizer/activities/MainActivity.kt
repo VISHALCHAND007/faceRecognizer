@@ -32,6 +32,7 @@ import com.example.facerecognizer.caching.MyLRUCache
 import com.example.facerecognizer.caching.OnBitmapAddedListener
 import com.example.facerecognizer.databinding.ActivityMainBinding
 import com.example.facerecognizer.utils.SharedPrefs
+import com.example.facerecognizer.utils.TemplateMatching
 import com.example.facerecognizer.utils.customEmpIdDialog
 import com.example.facerecognizer.utils.helperClasses.Constants
 import com.example.facerecognizer.utils.helperClasses.ImageHelper
@@ -48,6 +49,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import java.io.File
+import java.nio.ByteBuffer
 import java.util.concurrent.Executors
 
 class MainActivity : AppCompatActivity() {
@@ -72,6 +74,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var overlayBitmap: Bitmap
     private lateinit var sharedPrefs: SharedPrefs
     private lateinit var pythonHelper: PythonHelper
+    private lateinit var templateMatching: TemplateMatching
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -89,6 +92,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initElements() {
         constants = Constants()
+        templateMatching = TemplateMatching()
         imageHelper = ImageHelper()
         val maxMemory = (Runtime.getRuntime().maxMemory() / 1024).toInt()
         val cacheSize = maxMemory / 8 // Use 1/8th of the available memory
@@ -103,6 +107,55 @@ class MainActivity : AppCompatActivity() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         takePermission()
         initCamera()
+        calculateDistance()
+    }
+
+    private fun calculateDistance() {
+        val embFile1 = "SQ1001-03.emb"
+        val embFile2 = "SQ1001-08.emb"
+        val embFile3 = "SQ1002-03.emb"
+
+        CoroutineScope(Dispatchers.IO).launch {
+            var embPath1: String? = ""
+            var embPath2: String? = ""
+            var embPath3: String? = ""
+            async {
+                //first move the files form assets to files directory
+                embPath1 = templateMatching.copyEmbFileToInternalStorage(
+                    context = this@MainActivity,
+                    fileName = embFile1
+                )
+                embPath2 = templateMatching.copyEmbFileToInternalStorage(
+                    context = this@MainActivity,
+                    fileName = embFile2
+                )
+                embPath3 = templateMatching.copyEmbFileToInternalStorage(
+                    context = this@MainActivity,
+                    fileName = embFile3
+                )
+            }.join()
+            if(embPath1?.isNotEmpty() == true && embPath2?.isNotEmpty() == true  && embPath3?.isNotEmpty() == true ) {
+                val embeddingsFile1 = embPath1?.let { File(it) }
+                val embeddingsFile2 = embPath2?.let { File(it) }
+                val embeddingsFile3 = embPath3?.let { File(it) }
+
+                val embeddings1 = embeddingsFile1?.let { templateMatching.readFile(it) }
+                val embeddings2 = embeddingsFile2?.let { templateMatching.readFile(it) }
+                val embeddings3 = embeddingsFile3?.let { templateMatching.readFile(it) }
+
+                constants.log("embeddings1 => $embeddings1\nembeddings2 => $embeddings2\nembeddings3 => $embeddings3")
+                if (embeddings1 != null && embeddings2 != null && embeddings3 != null) {
+                    val distance1 = templateMatching.euclideanDistance(embeddings1, embeddings2)
+                    val distance2 = templateMatching.euclideanDistance(embeddings1, embeddings3)
+                    binding?.apply {
+                        resultsTv.visibility = View.VISIBLE
+
+                        resultsTv.append("Distance b/w SQ1001-03 & SQ1001-08: $distance1\n")
+                        resultsTv.append("Distance b/w SQ1001-03 & SQ1002-03: $distance2\n")
+                    }
+                }
+            }
+        }
     }
 
     private fun initCamera() {
@@ -176,7 +229,7 @@ class MainActivity : AppCompatActivity() {
         if (!detections.isNullOrEmpty() && clickImg) {
             //to measure the inactivity properly setting the timer to 0 everytime the face is detected
 
-            clickImage()
+//            clickImage()
             clickImg = false
         }
     }
@@ -357,7 +410,8 @@ class MainActivity : AppCompatActivity() {
                     folderPaths.add(it.toString())
                 }
             }
-            pythonHelper.generateEmbeddings(this@MainActivity, folderPaths
+            pythonHelper.generateEmbeddings(
+                this@MainActivity, folderPaths
             )
             if (folderNames.isNotEmpty()) {
                 constants.showToast("$folderNames", this@MainActivity)
